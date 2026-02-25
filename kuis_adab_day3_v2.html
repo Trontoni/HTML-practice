@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Kuis Adab Islami</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & BASE ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#1e293b;min-height:100vh;overflow-x:hidden}
+:root{
+  --teal:#0d9488;--teal-l:#14b8a6;--teal-d:#0f766e;
+  --gold:#f59e0b;--gold-l:#fbbf24;--amber:#d97706;
+  --emerald:#10b981;--rose:#f43f5e;--sky:#0ea5e9;
+  --indigo:#6366f1;--violet:#7c3aed;
+  --bg:#ecfdf5;--sh-lg:0 8px 32px rgba(0,0,0,.14)
+}
+
+/* ============ HEADER ============ */
+.header{
+  background:linear-gradient(135deg,var(--teal-d) 0%,var(--teal) 55%,#0891b2 100%);
+  padding:16px 16px 0;color:#fff;
+  box-shadow:0 4px 20px rgba(13,148,136,.45);
+  position:sticky;top:0;z-index:100
+}
+.header-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.header-icon{font-size:1.9rem;cursor:default}
+.header-info{flex:1}
+.header-title{font-family:'Baloo 2',cursive;font-size:1.25rem;font-weight:900;line-height:1.2}
+.header-sub{font-size:0.72rem;opacity:.85;margin-top:2px}
+.header-actions{display:flex;gap:8px;align-items:center}
+.btn-settings{
+  background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.3);
+  color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;
+  font-size:1rem;transition:all .2s;display:flex;align-items:center;gap:6px;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;
+  white-space:nowrap
+}
+.btn-settings:hover{background:rgba(255,255,255,.3);transform:scale(1.03)}
+
+/* ============ TABS ============ */
+.nav-tabs{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{
+  flex:0 0 auto;padding:9px 14px;border-radius:10px 10px 0 0;
+  font-weight:800;font-size:0.78rem;cursor:pointer;border:none;
+  transition:all .2s;background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);
+  white-space:nowrap;font-family:'Nunito',sans-serif
+}
+.nav-tab:hover{background:rgba(255,255,255,.25);color:#fff}
+.nav-tab.active{background:var(--bg);color:var(--teal-d)}
+.tab-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;background:var(--gold);
+  color:#fff;font-size:0.65rem;margin-right:5px;font-weight:900
+}
+.nav-tab.active .tab-num{background:var(--teal)}
+
+/* ============ SECTIONS ============ */
+.section{display:none;padding:20px 16px 32px;max-width:780px;margin:0 auto}
+.section.active{display:block}
+.section-header{margin-bottom:22px;text-align:center}
+.section-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,var(--teal),var(--sky));
+  color:#fff;padding:5px 16px;border-radius:999px;
+  font-size:0.7rem;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:8px
+}
+.section-title{font-family:'Baloo 2',cursive;font-size:1.7rem;font-weight:900;color:var(--teal-d)}
+.section-desc{color:#64748b;font-size:0.88rem;margin-top:4px}
+
+/* ============ PROGRESS ============ */
+.prog-wrap{background:#e2e8f0;border-radius:999px;height:10px;margin-bottom:6px;overflow:hidden}
+.prog-fill{height:100%;border-radius:999px;transition:width .4s ease;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.prog-text{font-size:0.78rem;color:#64748b;font-weight:700}
+
+/* ============ NAV DOTS ============ */
+.nav-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.nav-dot{width:13px;height:13px;border-radius:50%;cursor:pointer;transition:all .2s;border:2px solid transparent}
+.nav-dot.todo{background:#cbd5e1}
+.nav-dot.done{background:var(--emerald)}
+.nav-dot.skipped{background:var(--gold)}
+.nav-dot.current{background:var(--teal);border-color:var(--teal-d);transform:scale(1.35)}
+
+/* ============ ANAGRAM ============ */
+.anagram-card{
+  background:#fff;border-radius:20px;padding:22px;
+  box-shadow:var(--sh-lg);border:2px solid #e0f2fe;margin-bottom:18px
+}
+.q-number{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--sky));
+  color:#fff;font-weight:900;font-size:0.88rem;margin-bottom:12px
+}
+.clue-box{
+  background:linear-gradient(135deg,#fef3c7,#fde68a);
+  border-left:4px solid var(--gold);border-radius:12px;
+  padding:13px 16px;margin-bottom:18px
+}
+.clue-label{font-size:0.68rem;font-weight:900;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.clue-text{font-size:0.92rem;font-weight:700;color:#78350f;line-height:1.55}
+.word-hint{font-size:0.74rem;color:#64748b;font-weight:700;margin-bottom:12px}
+.word-hint span{display:inline-block;background:#f1f5f9;border-radius:6px;padding:2px 8px;margin:0 2px}
+.answer-area{margin-bottom:18px}
+.words-container{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+.word-row{display:flex;gap:5px;flex-wrap:wrap}
+.letter-slot{
+  width:42px;height:42px;border-radius:10px;
+  border:2.5px dashed #cbd5e1;background:#f8fafc;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;font-weight:900;color:var(--teal-d);
+  cursor:pointer;transition:all .15s;text-transform:uppercase;
+  user-select:none;-webkit-user-select:none
+}
+.letter-slot.filled{border-style:solid;border-color:var(--teal);background:#e6fffa}
+.letter-slot.filled:hover{background:#ccfbf1;transform:scale(1.06)}
+.letter-slot.correct-slot{border-color:var(--emerald);background:#d1fae5;color:var(--emerald)}
+.letter-slot.wrong-slot{border-color:var(--rose);background:#ffe4e6;color:var(--rose);animation:shake .4s}
+.tile-pool{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  background:#f1f5f9;border-radius:14px;padding:14px;
+  margin-bottom:18px;min-height:68px;align-content:center
+}
+.letter-tile{
+  width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-l));
+  color:#fff;font-size:1.1rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;text-transform:uppercase;
+  box-shadow:0 3px 8px rgba(13,148,136,.35);
+  user-select:none;-webkit-user-select:none
+}
+.letter-tile:hover{transform:translateY(-3px) scale(1.08);box-shadow:0 6px 16px rgba(13,148,136,.45)}
+.letter-tile:active{transform:scale(.95)}
+.letter-tile.used{opacity:0;pointer-events:none}
+
+/* ============ BUTTONS ============ */
+.action-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  padding:10px 18px;border-radius:12px;font-weight:800;
+  font-size:0.85rem;cursor:pointer;border:none;transition:all .15s;
+  display:flex;align-items:center;gap:7px;font-family:'Nunito',sans-serif;white-space:nowrap
+}
+.btn:active{transform:scale(.95)}
+.btn-hapus{background:#fee2e2;color:#b91c1c}
+.btn-hapus:hover{background:#fecaca}
+.btn-cek{background:linear-gradient(135deg,var(--teal),var(--teal-l));color:#fff;box-shadow:0 3px 12px rgba(13,148,136,.4)}
+.btn-cek:hover{box-shadow:0 5px 18px rgba(13,148,136,.55);transform:translateY(-1px)}
+.btn-skip{background:#f1f5f9;color:#64748b}
+.btn-skip:hover{background:#e2e8f0}
+.btn-primary{
+  background:linear-gradient(135deg,var(--teal),var(--sky));
+  color:#fff;padding:13px 28px;border-radius:14px;
+  font-size:0.95rem;font-weight:800;border:none;cursor:pointer;
+  transition:all .2s;font-family:'Nunito',sans-serif;
+  box-shadow:0 4px 14px rgba(13,148,136,.4);
+  display:inline-flex;align-items:center;gap:8px
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,148,136,.5)}
+
+/* ============ FEEDBACK ============ */
+.fb{border-radius:12px;padding:12px 16px;margin-top:14px;font-weight:700;font-size:0.88rem;animation:popIn .3s ease;text-align:center}
+.fb-correct{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border:2px solid var(--emerald);color:#065f46}
+.fb-wrong{background:linear-gradient(135deg,#ffe4e6,#fecdd3);border:2px solid var(--rose);color:#9f1239}
+.fb-info{background:#f0f9ff;border:2px solid var(--sky);color:#0369a1}
+.all-done-card{
+  background:linear-gradient(135deg,#d1fae5,#a7f3d0);
+  border:3px solid var(--emerald);border-radius:24px;
+  padding:36px 24px;text-align:center;
+  animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)
+}
+.all-done-emoji{font-size:3.2rem;margin-bottom:10px}
+.all-done-title{font-family:'Baloo 2',cursive;font-size:1.7rem;font-weight:900;color:#065f46}
+.all-done-sub{color:#047857;font-weight:700;margin-top:6px}
+
+/* ============ MC ============ */
+.mc-card{background:#fff;border-radius:20px;padding:22px;box-shadow:var(--sh-lg);margin-bottom:14px;border:2px solid #e0f2fe;animation:slideUp .3s ease}
+.mc-q-num{font-size:0.72rem;font-weight:900;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.mc-q-text{font-size:0.97rem;font-weight:700;line-height:1.65;color:#1e293b}
+.retry-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fef3c7;color:var(--amber);padding:5px 14px;
+  border-radius:999px;font-size:0.73rem;font-weight:800;
+  margin-bottom:16px;border:1.5px solid var(--gold-l)
+}
+.mc-options{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+.mc-opt{
+  padding:13px 16px;border-radius:13px;border:2.5px solid #e2e8f0;
+  background:#f8fafc;cursor:pointer;font-weight:700;font-size:0.9rem;
+  transition:all .15s;text-align:left;line-height:1.5;
+  font-family:'Nunito',sans-serif;width:100%
+}
+.mc-opt:hover:not(:disabled){border-color:var(--teal);background:#f0fdfa;transform:translateX(4px)}
+.mc-opt.opt-correct{border-color:var(--emerald);background:#d1fae5;color:#065f46}
+.mc-opt.opt-wrong{border-color:var(--rose);background:#ffe4e6;color:#9f1239}
+.mc-opt:disabled{cursor:not-allowed;opacity:.85}
+.mc-fb{margin-top:12px;border-radius:12px;padding:11px 16px;font-weight:700;font-size:0.88rem;animation:popIn .3s ease}
+.mc-fb.correct{background:#d1fae5;color:#065f46;border:2px solid var(--emerald)}
+.mc-fb.wrong{background:#ffe4e6;color:#9f1239;border:2px solid var(--rose)}
+.score-card{background:#fff;border-radius:20px;padding:28px;box-shadow:var(--sh-lg);text-align:center;border:2px solid #bbf7d0;animation:popIn .5s ease}
+.score-big{font-family:'Baloo 2',cursive;font-size:3.8rem;font-weight:900;color:var(--teal)}
+.score-label{color:#64748b;font-size:0.95rem;font-weight:700}
+
+/* ============ OPEN THE BOX ============ */
+.box-stats-bar{text-align:center;color:#64748b;font-weight:700;font-size:0.85rem;margin-bottom:16px}
+.box-stats-bar span{color:var(--teal);font-weight:900}
+.box-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-bottom:22px}
+.box-item{perspective:800px;cursor:pointer}
+.box-inner{position:relative;width:100%;padding-bottom:100%;transition:transform .6s cubic-bezier(.25,.46,.45,.94);transform-style:preserve-3d}
+.box-item.opened .box-inner{transform:rotateY(180deg)}
+.box-front,.box-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px}
+.box-front{
+  background:linear-gradient(135deg,var(--teal),#0ea5e9);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;
+  box-shadow:0 4px 14px rgba(13,148,136,.35);border:3px solid rgba(255,255,255,.25);transition:transform .15s,box-shadow .15s
+}
+.box-item:not(.opened) .box-front:hover{transform:scale(1.06) translateY(-2px);box-shadow:0 8px 22px rgba(13,148,136,.5)}
+.box-num-text{font-family:'Baloo 2',cursive;font-size:1.9rem;font-weight:900;color:#fff}
+.box-qmark{font-size:1.1rem;color:rgba(255,255,255,.75)}
+.box-back{transform:rotateY(180deg);background:linear-gradient(135deg,#fef3c7,#fde68a);border:3px solid var(--gold-l);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(245,158,11,.3)}
+.box-back-inner{text-align:center;padding:8px}
+.box-back-num{font-size:0.65rem;font-weight:900;color:var(--amber)}
+.box-back-check{font-size:1.4rem}
+
+/* ============ BOX MODAL ============ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:500;padding:16px;animation:fadeIn .2s}
+.modal-card{background:#fff;border-radius:22px;padding:24px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.28);animation:popIn .3s cubic-bezier(.175,.885,.32,1.275);max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-badge{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;padding:4px 14px;border-radius:999px;font-size:0.73rem;font-weight:800}
+.modal-close{width:32px;height:32px;border-radius:50%;background:#f1f5f9;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.modal-close:hover{background:#e2e8f0;transform:scale(1.1)}
+.modal-situation{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border-radius:13px;padding:14px;margin-bottom:14px;border-left:4px solid var(--sky)}
+.modal-sit-label{font-size:0.68rem;font-weight:900;color:var(--sky);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.modal-sit-text{font-size:0.9rem;line-height:1.6;font-weight:600;color:#1e293b}
+.modal-qbox{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:13px;padding:14px;border-left:4px solid var(--gold)}
+.modal-q-label{font-size:0.68rem;font-weight:900;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.modal-q-text{font-size:0.93rem;line-height:1.6;color:#78350f;font-weight:800}
+
+/* ============ ANIMATIONS ============ */
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+
+/* ============================================================
+   SETTINGS PANEL
+   ============================================================ */
+.settings-overlay{
+  position:fixed;inset:0;background:rgba(15,23,42,.6);
+  z-index:800;display:none;animation:fadeIn .2s
+}
+.settings-panel{
+  position:fixed;top:0;right:0;width:min(520px,100%);height:100%;
+  background:#f8fafc;display:flex;flex-direction:column;
+  box-shadow:-6px 0 40px rgba(0,0,0,.25);
+  animation:slideInRight .3s cubic-bezier(.25,.46,.45,.94);
+  overflow:hidden
+}
+.settings-overlay.open{display:block}
+
+/* Settings header */
+.sp-header{
+  background:linear-gradient(135deg,var(--violet),var(--indigo));
+  padding:18px 20px;color:#fff;flex-shrink:0
+}
+.sp-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sp-title{font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:900}
+.sp-close{
+  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);
+  border:none;color:#fff;font-size:1.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .15s
+}
+.sp-close:hover{background:rgba(255,255,255,.35);transform:scale(1.08)}
+.sp-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.sp-tabs::-webkit-scrollbar{display:none}
+.sp-tab{
+  flex:0 0 auto;padding:7px 13px;border-radius:8px 8px 0 0;
+  font-weight:800;font-size:0.73rem;cursor:pointer;border:none;
+  transition:all .2s;background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);
+  font-family:'Nunito',sans-serif;white-space:nowrap
+}
+.sp-tab.active{background:#f8fafc;color:var(--violet)}
+.sp-tab:hover:not(.active){background:rgba(255,255,255,.25);color:#fff}
+
+/* Settings body */
+.sp-body{flex:1;overflow-y:auto;padding:16px}
+.sp-section{display:none}
+.sp-section.active{display:block}
+
+/* Settings cards */
+.sp-card{
+  background:#fff;border-radius:14px;padding:16px;
+  border:1.5px solid #e2e8f0;margin-bottom:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05)
+}
+.sp-card-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;gap:8px
+}
+.sp-card-title{
+  font-size:0.8rem;font-weight:900;color:var(--violet);
+  text-transform:uppercase;letter-spacing:0.5px
+}
+.sp-card-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,var(--violet),var(--indigo));
+  color:#fff;font-size:0.7rem;font-weight:900;flex-shrink:0
+}
+.sp-del-btn{
+  background:#fff0f0;color:#dc2626;border:1.5px solid #fecaca;
+  border-radius:8px;padding:5px 9px;cursor:pointer;font-size:0.75rem;
+  font-weight:800;font-family:'Nunito',sans-serif;transition:all .15s;
+  display:flex;align-items:center;gap:4px;white-space:nowrap
+}
+.sp-del-btn:hover{background:#fee2e2}
+
+/* Form elements */
+.sp-field{margin-bottom:10px}
+.sp-label{
+  display:block;font-size:0.72rem;font-weight:800;
+  color:#64748b;text-transform:uppercase;letter-spacing:0.5px;
+  margin-bottom:4px
+}
+.sp-input,.sp-textarea{
+  width:100%;border:1.5px solid #e2e8f0;border-radius:10px;
+  padding:9px 12px;font-family:'Nunito',sans-serif;font-size:0.88rem;
+  font-weight:600;color:#1e293b;background:#f8fafc;
+  transition:border-color .15s;resize:vertical;outline:none
+}
+.sp-input:focus,.sp-textarea:focus{border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.sp-textarea{min-height:72px;line-height:1.5}
+.sp-select{
+  width:100%;border:1.5px solid #e2e8f0;border-radius:10px;
+  padding:9px 12px;font-family:'Nunito',sans-serif;font-size:0.88rem;
+  font-weight:600;color:#1e293b;background:#f8fafc;outline:none;cursor:pointer
+}
+.sp-select:focus{border-color:var(--violet)}
+
+/* Options grid */
+.opts-grid{display:flex;flex-direction:column;gap:6px}
+.opt-row{display:flex;gap:6px;align-items:flex-start}
+.opt-letter{
+  flex-shrink:0;width:28px;height:28px;border-radius:8px;
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  color:#fff;font-size:0.75rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;margin-top:7px
+}
+.opt-letter.correct-letter{background:linear-gradient(135deg,var(--emerald),#34d399)}
+
+/* Add button */
+.sp-add-btn{
+  width:100%;padding:11px;border:2px dashed #c4b5fd;border-radius:12px;
+  background:transparent;color:var(--violet);font-weight:800;font-size:0.85rem;
+  cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px
+}
+.sp-add-btn:hover{background:#f5f3ff;border-color:var(--violet)}
+
+/* Settings footer */
+.sp-footer{
+  padding:14px 16px;background:#fff;border-top:1.5px solid #e2e8f0;
+  display:flex;gap:10px;flex-shrink:0
+}
+.sp-save-btn{
+  flex:1;background:linear-gradient(135deg,var(--violet),var(--indigo));
+  color:#fff;border:none;border-radius:12px;padding:12px;
+  font-weight:900;font-size:0.92rem;cursor:pointer;font-family:'Nunito',sans-serif;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px
+}
+.sp-save-btn:hover{box-shadow:0 4px 14px rgba(124,58,237,.45);transform:translateY(-1px)}
+.sp-cancel-btn{
+  background:#f1f5f9;color:#64748b;border:none;border-radius:12px;padding:12px 18px;
+  font-weight:800;font-size:0.9rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s
+}
+.sp-cancel-btn:hover{background:#e2e8f0}
+
+/* General settings */
+.sp-general-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;border-bottom:1px solid #f1f5f9
+}
+.sp-general-row:last-child{border-bottom:none}
+.sp-gen-info{}
+.sp-gen-title{font-weight:800;font-size:0.9rem;color:#1e293b}
+.sp-gen-sub{font-size:0.76rem;color:#64748b;margin-top:2px}
+.sp-action-btn{
+  padding:8px 14px;border-radius:10px;font-weight:800;font-size:0.8rem;
+  cursor:pointer;border:none;font-family:'Nunito',sans-serif;transition:all .15s;
+  white-space:nowrap
+}
+.sp-action-btn.danger{background:#fee2e2;color:#b91c1c}
+.sp-action-btn.danger:hover{background:#fecaca}
+.sp-action-btn.info{background:#e0f2fe;color:#0369a1}
+.sp-action-btn.info:hover{background:#bae6fd}
+.sp-action-btn.success{background:#d1fae5;color:#065f46}
+.sp-action-btn.success:hover{background:#a7f3d0}
+.sp-action-btn.warn{background:#fef3c7;color:#92400e}
+.sp-action-btn.warn:hover{background:#fde68a}
+
+/* Toast notification */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:#1e293b;color:#fff;padding:12px 24px;border-radius:12px;
+  font-weight:700;font-size:0.88rem;z-index:9999;
+  transition:transform .3s cubic-bezier(.175,.885,.32,1.275);
+  box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;
+  display:flex;align-items:center;gap:8px
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Confirm dialog */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1200;display:none;align-items:center;justify-content:center;padding:20px}
+.confirm-overlay.open{display:flex}
+.confirm-card{background:#fff;border-radius:18px;padding:24px;max-width:340px;width:100%;text-align:center;animation:popIn .3s ease;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.confirm-icon{font-size:2.5rem;margin-bottom:10px}
+.confirm-title{font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:900;color:#1e293b;margin-bottom:6px}
+.confirm-msg{font-size:0.88rem;color:#64748b;font-weight:600;line-height:1.5;margin-bottom:20px}
+.confirm-btns{display:flex;gap:10px}
+.confirm-yes{flex:1;background:#dc2626;color:#fff;border:none;border-radius:11px;padding:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;font-size:0.9rem;transition:all .15s}
+.confirm-yes:hover{background:#b91c1c}
+.confirm-no{flex:1;background:#f1f5f9;color:#64748b;border:none;border-radius:11px;padding:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;font-size:0.9rem;transition:all .15s}
+.confirm-no:hover{background:#e2e8f0}
+
+/* Import/Export */
+.file-input-wrap{position:relative;overflow:hidden;display:inline-block}
+.file-input-wrap input[type=file]{position:absolute;left:0;top:0;opacity:0;width:100%;height:100%;cursor:pointer}
+
+/* Responsive */
+@media(max-width:480px){
+  .header-title{font-size:1.1rem}
+  .nav-tab{padding:8px 10px;font-size:0.72rem}
+  .section-title{font-size:1.45rem}
+  .letter-slot{width:36px;height:36px;font-size:0.9rem}
+  .letter-tile{width:40px;height:40px;font-size:0.95rem}
+  .box-grid{grid-template-columns:repeat(auto-fill,minmax(85px,1fr));gap:9px}
+  .box-num-text{font-size:1.6rem}
+  .anagram-card,.mc-card{padding:16px}
+  .settings-panel{width:100%}
+}
+@media(min-width:768px){
+  .section{padding:28px 24px 40px}
+  .header{padding:20px 24px 0}
+  .header-title{font-size:1.4rem}
+  .nav-tab{padding:11px 20px;font-size:0.82rem}
+  .letter-slot{width:46px;height:46px;font-size:1.1rem}
+  .letter-tile{width:50px;height:50px;font-size:1.15rem}
+  .box-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-icon">🕌</div>
+    <div class="header-info">
+      <div class="header-title" id="quiz-title-display">Kuis Adab Islami</div>
+      <div class="header-sub" id="quiz-subtitle-display">Belajar adab itu asyik dan menyenangkan!</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-settings" onclick="openSettings()">⚙️ Pengaturan</button>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab(0)"><span class="tab-num">1</span>✏️ Anagram</button>
+    <button class="nav-tab" onclick="switchTab(1)"><span class="tab-num">2</span>🧠 Pilihan Ganda</button>
+    <button class="nav-tab" onclick="switchTab(2)"><span class="tab-num">3</span>📦 Open The Box</button>
+  </div>
+</div>
+
+<!-- ===================== SECTION 1: ANAGRAM ===================== -->
+<div id="sec-0" class="section active">
+  <div class="section-header">
+    <div class="section-badge">✏️ Bagian 1</div>
+    <div class="section-title">Susun Kata</div>
+    <div class="section-desc">Klik huruf untuk menyusun jawaban yang benar</div>
+  </div>
+  <div style="margin-bottom:14px">
+    <div class="prog-wrap"><div class="prog-fill" id="ag-prog" style="width:0%"></div></div>
+    <div class="prog-text" id="ag-prog-text">0 / 0 kata selesai</div>
+  </div>
+  <div class="nav-dots" id="ag-dots"></div>
+  <div id="ag-main"></div>
+</div>
+
+<!-- ===================== SECTION 2: MC ===================== -->
+<div id="sec-1" class="section">
+  <div class="section-header">
+    <div class="section-badge">🧠 Bagian 2</div>
+    <div class="section-title">Pilihan Ganda</div>
+    <div class="section-desc">Pilih jawaban yang paling tepat</div>
+  </div>
+  <div style="margin-bottom:14px">
+    <div class="prog-wrap"><div class="prog-fill" id="mc-prog" style="width:0%"></div></div>
+    <div class="prog-text" id="mc-prog-text">Soal 1 dari 0</div>
+  </div>
+  <div id="mc-retry-badge" style="display:none" class="retry-badge">🔁 Mengulang soal yang salah – tetap semangat!</div>
+  <div id="mc-main"></div>
+</div>
+
+<!-- ===================== SECTION 3: OPEN THE BOX ===================== -->
+<div id="sec-2" class="section">
+  <div class="section-header">
+    <div class="section-badge">📦 Bagian 3</div>
+    <div class="section-title">Open The Box</div>
+    <div class="section-desc">Klik kotak untuk membuka pertanyaan diskusi di dalamnya!</div>
+  </div>
+  <div class="box-stats-bar" id="box-stats"><span>0</span> / 0 kotak dibuka</div>
+  <div class="box-grid" id="box-grid"></div>
+  <div id="box-alldone" style="display:none;text-align:center">
+    <div class="fb fb-correct" style="margin-bottom:16px">🎉 Semua kotak sudah dibuka! Luar biasa!</div>
+    <button class="btn-primary" onclick="resetBoxes()">🔄 Reset Kotak</button>
+  </div>
+</div>
+
+<!-- ===================== BOX MODAL ===================== -->
+<div id="modal" class="modal-overlay" style="display:none" onclick="closeModal()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-badge" id="modal-badge">📦 Kotak #1</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-situation">
+      <div class="modal-sit-label">🎭 Studi Kasus</div>
+      <div class="modal-sit-text" id="modal-situation"></div>
+    </div>
+    <div class="modal-qbox">
+      <div class="modal-q-label">❓ Pertanyaan Diskusi</div>
+      <div class="modal-q-text" id="modal-question"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SETTINGS PANEL ===================== -->
+<div class="settings-overlay" id="settings-overlay" onclick="closeSettingsIfBg(event)">
+  <div class="settings-panel" id="settings-panel">
+    <!-- Settings Header -->
+    <div class="sp-header">
+      <div class="sp-header-top">
+        <div class="sp-title">⚙️ Panel Pengaturan</div>
+        <button class="sp-close" onclick="closeSettings()">✕</button>
+      </div>
+      <div class="sp-tabs">
+        <button class="sp-tab active" onclick="switchSpTab(0)">📋 Umum</button>
+        <button class="sp-tab" onclick="switchSpTab(1)">✏️ Anagram</button>
+        <button class="sp-tab" onclick="switchSpTab(2)">🧠 Pilihan Ganda</button>
+        <button class="sp-tab" onclick="switchSpTab(3)">📦 Open Box</button>
+      </div>
+    </div>
+    <!-- Settings Body -->
+    <div class="sp-body">
+
+      <!-- TAB 0: UMUM -->
+      <div class="sp-section active" id="spt-0">
+        <div class="sp-card">
+          <div class="sp-card-title" style="margin-bottom:12px">🎨 Identitas Kuis</div>
+          <div class="sp-field">
+            <label class="sp-label">Judul Kuis</label>
+            <input type="text" class="sp-input" id="cfg-title" placeholder="Kuis Adab Islami">
+          </div>
+          <div class="sp-field">
+            <label class="sp-label">Subjudul / Deskripsi</label>
+            <input type="text" class="sp-input" id="cfg-subtitle" placeholder="Belajar adab itu asyik!">
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-title" style="margin-bottom:4px">🔄 Reset Progress</div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Reset Bagian Anagram</div>
+              <div class="sp-gen-sub">Semua soal anagram kembali ke awal</div>
+            </div>
+            <button class="sp-action-btn danger" onclick="confirmReset('ag')">Reset</button>
+          </div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Reset Pilihan Ganda</div>
+              <div class="sp-gen-sub">Skor dan progress MC dihapus</div>
+            </div>
+            <button class="sp-action-btn danger" onclick="confirmReset('mc')">Reset</button>
+          </div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Reset Open The Box</div>
+              <div class="sp-gen-sub">Semua kotak ditutup kembali</div>
+            </div>
+            <button class="sp-action-btn danger" onclick="confirmReset('box')">Reset</button>
+          </div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Reset Semua Progress</div>
+              <div class="sp-gen-sub">Reset ketiga bagian sekaligus</div>
+            </div>
+            <button class="sp-action-btn danger" onclick="confirmReset('all')">Reset Semua</button>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-title" style="margin-bottom:4px">💾 Data & Backup</div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Export Soal (JSON)</div>
+              <div class="sp-gen-sub">Simpan semua soal ke file JSON</div>
+            </div>
+            <button class="sp-action-btn info" onclick="exportData()">⬇️ Export</button>
+          </div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Import Soal (JSON)</div>
+              <div class="sp-gen-sub">Muat soal dari file JSON backup</div>
+            </div>
+            <div class="file-input-wrap">
+              <button class="sp-action-btn info">⬆️ Import</button>
+              <input type="file" accept=".json" onchange="importData(event)">
+            </div>
+          </div>
+          <div class="sp-general-row">
+            <div class="sp-gen-info">
+              <div class="sp-gen-title">Kembalikan ke Soal Default</div>
+              <div class="sp-gen-sub">Hapus semua perubahan soal</div>
+            </div>
+            <button class="sp-action-btn warn" onclick="confirmRestoreDefault()">↩️ Default</button>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-title" style="margin-bottom:4px">📊 Statistik</div>
+          <div id="stats-display"></div>
+        </div>
+      </div>
+
+      <!-- TAB 1: ANAGRAM -->
+      <div class="sp-section" id="spt-1">
+        <p style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:12px">
+          ✏️ Edit kata dan petunjuk soal anagram. Huruf akan diacak otomatis saat kuis.
+        </p>
+        <div id="ag-editor"></div>
+        <button class="sp-add-btn" onclick="addAgItem()">➕ Tambah Soal Anagram</button>
+      </div>
+
+      <!-- TAB 2: PILIHAN GANDA -->
+      <div class="sp-section" id="spt-2">
+        <p style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:12px">
+          🧠 Edit pertanyaan, pilihan jawaban, dan kunci jawaban. Kunci: A, B, C, atau D.
+        </p>
+        <div id="mc-editor"></div>
+        <button class="sp-add-btn" onclick="addMcItem()">➕ Tambah Soal Pilihan Ganda</button>
+      </div>
+
+      <!-- TAB 3: OPEN THE BOX -->
+      <div class="sp-section" id="spt-3">
+        <p style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:12px">
+          📦 Edit studi kasus dan pertanyaan diskusi untuk setiap kotak.
+        </p>
+        <div id="box-editor"></div>
+        <button class="sp-add-btn" onclick="addBoxItem()">➕ Tambah Kotak</button>
+      </div>
+
+    </div>
+    <!-- Settings Footer -->
+    <div class="sp-footer">
+      <button class="sp-cancel-btn" onclick="closeSettings()">Batal</button>
+      <button class="sp-save-btn" onclick="saveSettings()">💾 Simpan Perubahan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONFIRM DIALOG ===================== -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-card">
+    <div class="confirm-icon" id="confirm-icon">⚠️</div>
+    <div class="confirm-title" id="confirm-title">Konfirmasi</div>
+    <div class="confirm-msg" id="confirm-msg">Apakah kamu yakin?</div>
+    <div class="confirm-btns">
+      <button class="confirm-no" onclick="closeConfirm()">Batal</button>
+      <button class="confirm-yes" id="confirm-yes-btn" onclick="doConfirm()">Ya, Lanjutkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ================================================================
+// DEFAULT DATA
+// ================================================================
+const DEFAULT_AG = [
+  {id:1,answer:"ADAB",clue:"Sopan santun, kehalusan budi pekerti, atau kebiasaan yang baik dalam Islam."},
+  {id:2,answer:"AKHLAK",clue:"Hal utama yang ingin disempurnakan oleh Rasulullah SAW saat diutus ke dunia."},
+  {id:3,answer:"RASULULLAH SAW",clue:"Tokoh yang menjadi contoh atau suri tauladan paling sempurna dalam hal beradab."},
+  {id:4,answer:"ORANG TUA DAN GURU",clue:"Sosok yang wajib kita patuhi, hormati, dengarkan nasihatnya, dan pantang untuk kita bentak."},
+  {id:5,answer:"TEMAN SEBAYA",clue:"Sosok yang dilarang untuk kita ejek, bully, atau panggil dengan julukan yang buruk."},
+  {id:6,answer:"ADIK KELAS",clue:"Sosok yang lebih muda yang harus kita sayangi dan selalu kita beri contoh yang baik."},
+  {id:7,answer:"MENDOAKAN",clue:"Hal berharga yang harus kita lakukan untuk orang tua, terutama setiap selesai shalat wajib."},
+  {id:8,answer:"ASSALAMUALAIKUM",clue:"Kalimat sapaan pembawa damai yang harus diucapkan saat bertemu dengan teman, guru, atau sesama muslim."},
+  {id:9,answer:"MEMAAFKAN",clue:"Sikap lapang dada yang harus kita berikan jika ada teman yang berbuat salah lalu meminta maaf."},
+  {id:10,answer:"DIAM",clue:"Pilihan tindakan terbaik menurut ajaran Islam jika kita sedang tidak bisa berkata yang baik."},
+  {id:11,answer:"JUJUR",clue:"Syarat utama saat kita sedang bercanda agar tidak menimbulkan dosa (tidak boleh ada kebohongan)."}
+];
+const DEFAULT_MC = [
+  {id:1,q:"Para ulama terdahulu sangat menekankan untuk mempelajari adab terlebih dahulu sebelum mempelajari ilmu pengetahuan. Alasan paling tepat dari pernyataan tersebut adalah...",opts:["A. Karena adab lebih mudah dihafal dibandingkan rumus pelajaran.","B. Agar kita menjadi murid kesayangan guru dan sering dipuji.","C. Karena ilmu yang banyak bisa menjadi sia-sia jika pemiliknya tidak memiliki budi pekerti yang baik.","D. Karena pelajaran adab hanya diajarkan di tingkat Sekolah Dasar."],ans:"C"},
+  {id:2,q:"Rasulullah SAW bersabda, 'Sesungguhnya aku diutus hanya untuk menyempurnakan akhlak yang mulia.' Makna terdalam dari hadits ini bagi kehidupan kita adalah...",opts:["A. Kita harus fokus beribadah saja dan tidak perlu peduli dengan urusan duniawi.","B. Kita wajib menjadikan Rasulullah SAW sebagai satu-satunya teladan dalam bersikap kepada siapa pun.","C. Orang yang berakhlak mulia pasti akan menjadi kaya raya dan sukses.","D. Kita hanya perlu bersikap baik kepada sesama muslim saja."],ans:"B"},
+  {id:3,q:"Ketika sedang menasihati, ibumu menyampaikan hal yang sebenarnya sudah kamu ketahui berulang kali. Adab yang paling tepat untuk kamu lakukan adalah...",opts:["A. Menyela pembicaraannya dan berkata, 'Iya Bu, aku sudah tahu, jangan diulang-ulang.'","B. Mendengarkan dengan penuh hormat seolah-olah kamu baru pertama kali mendengarnya.","C. Meninggalkannya pergi karena membuang-buang waktu belajarmu.","D. Pura-pura tidak dengar agar ibu cepat selesai berbicara."],ans:"B"},
+  {id:4,q:"Berbicara lembut kepada orang tua dan guru adalah kewajiban. Manakah dari situasi berikut yang TETAP melanggar larangan berkata 'Ah' atau membentak?",opts:["A. Menolak permintaan ibu dengan nada pelan dan memberikan alasan jujur bahwa kamu sakit perut.","B. Mengerjakan perintah ayah dengan wajah cemberut dan menghentakkan kaki ke lantai meski tidak bersuara.","C. Menanyakan kembali perintah guru karena suaranya kurang terdengar jelas.","D. Berdiam diri sejenak untuk menenangkan hati saat dimarahi orang tua."],ans:"B"},
+  {id:5,q:"Kamu sedang terburu-buru setelah shalat wajib karena teman-temanmu sudah menunggu untuk bermain bola. Apa yang seharusnya kamu prioritaskan terkait adab kepada orang tua?",opts:["A. Langsung lari keluar karena teman akan marah jika menunggu terlalu lama.","B. Meluangkan waktu sejenak, minimal mendoakan ampunan dan kasih sayang untuk kedua orang tua.","C. Mendoakan mereka nanti saja saat shalat tahajud atau shalat berikutnya.","D. Hanya berdoa untuk kemenangan tim sepak bolamu saja."],ans:"B"},
+  {id:6,q:"Temanmu tidak sengaja menghilangkan penghapusmu. Ia meminta maaf, tapi kamu tahu ia dari keluarga kurang mampu sehingga tidak bisa menggantinya. Sikap beradab yang tepat adalah...",opts:["A. Memaafkannya tapi memintanya berjanji mencicil uang pengganti setiap hari.","B. Memaafkannya di mulut, tapi menyindirnya terus-menerus saat pelajaran.","C. Melaporkannya ke guru agar ia mendapat hukuman yang setimpal.","D. Memaafkannya dengan ikhlas, mengikhlaskan penghapus itu, dan tidak mengungkitnya lagi."],ans:"D"},
+  {id:7,q:"Mengapa memanggil teman dengan julukan buruk sangat dilarang dalam Islam meskipun teman tersebut ikut tertawa?",opts:["A. Karena bisa membuat nilai akhlak di sekolah kita menjadi jelek.","B. Karena meskipun ia tertawa di luar, julukan buruk bisa melukai hatinya dan merendahkan martabatnya.","C. Karena julukan buruk biasanya merupakan kata-kata yang sulit diucapkan.","D. Karena julukan buruk hanya boleh diberikan kepada musuh saat berperang."],ans:"B"},
+  {id:8,q:"Kamu bertemu teman yang sedang menangis di taman. Kamu ingin mengucapkan salam. Cara beradab yang paling tepat adalah...",opts:["A. Berteriak 'Assalamualaikum!' dari jauh agar ia kaget dan berhenti menangis.","B. Mendekatinya perlahan, mengucapkan salam dengan suara lembut, dan menanyakan keadaannya.","C. Tidak jadi mengucapkan salam dan membiarkannya menangis sendirian agar tidak ikut campur.","D. Mengucapkan salam sambil tertawa untuk menghiburnya."],ans:"B"},
+  {id:9,q:"Sebagai kakak kelas (kelas 6), kamu melihat anak kelas 1 sedang kesulitan membuka bungkus bekal makanannya. Adab menyayangi adik kelas yang benar adalah...",opts:["A. Menontonnya saja karena itu cara melatih kemandirian anak kelas 1.","B. Menghampirinya, menawarkan bantuan dengan ramah, lalu mencontohkan cara membukanya.","C. Merebut bekalnya, membukakannya dengan paksa, lalu pergi tanpa bicara.","D. Menertawakannya bersama teman-temanmu agar ia sadar dirinya lemah."],ans:"B"},
+  {id:10,q:"Prinsip 'Memberi Contoh Baik' kepada orang yang lebih muda berarti...",opts:["A. Kita harus selalu terlihat sempurna dan tidak pernah melakukan kesalahan sedikitpun.","B. Hanya menasihati mereka dengan kata-kata kasar agar mereka disiplin.","C. Memastikan perbuatan kita sesuai dengan ucapan kita, seperti membuang sampah pada tempatnya agar ditiru.","D. Menyuruh adik kelas mengerjakan tugas kita agar mereka belajar tanggung jawab."],ans:"C"},
+  {id:11,q:"Hadits menyatakan 'Berkata yang baik atau diam'. Jika kamu tahu rahasia keburukan temanmu dan teman lain menanyakannya, apa yang harus kamu lakukan?",opts:["A. Menceritakannya setengah saja agar teman yang bertanya tidak penasaran.","B. Diam dan menolak untuk menceritakannya demi menutupi aib teman tersebut.","C. Menceritakan semuanya secara jujur karena kita tidak boleh berbohong.","D. Mengarang cerita baru yang lebih ringan agar rahasia aslinya tidak terbongkar."],ans:"B"},
+  {id:12,q:"Bercanda nge-prank (mengerjai) dengan cara berbohong sangat populer di internet. Bagaimana pandangan adab Islam mengenai hal ini?",opts:["A. Diperbolehkan asalkan prank tersebut direkam dan bisa menghasilkan uang.","B. Dilarang keras karena kebohongan tidak bisa dibenarkan meskipun tujuannya untuk membuat tertawa.","C. Diperbolehkan jika teman yang di-prank pada akhirnya ikut tertawa dan memaafkan.","D. Tergantung tingkat keparahan prank; jika hanya bohong kecil maka makruh."],ans:"B"},
+  {id:13,q:"Tertawa yang wajar dan tidak berlebihan (tidak terbahak-bahak) diajarkan karena...",opts:["A. Tertawa keras bisa merusak pita suara dan mengganggu konsentrasi belajar.","B. Bisa mengganggu kenyamanan orang lain di sekitar dan berpotensi mematikan kepekaan hati.","C. Orang yang tertawa terbahak-bahak terlihat kurang pintar di mata guru.","D. Rasulullah SAW tidak pernah tersenyum seumur hidupnya."],ans:"B"},
+  {id:14,q:"Kamu sedang marah karena diganggu teman saat belajar. Hal terbaik yang harus dilakukan agar tidak mengucapkan kata kasar adalah...",opts:["A. Membalas dengan pukulan agar temanmu tahu kamu serius marah.","B. Segera diam, beristighfar, atau pindah tempat untuk menenangkan emosi.","C. Meneriakinya dengan kata kasar satu kali saja sebagai peringatan keras.","D. Menuliskan kata-kata kasar di kertas lalu membuangnya ke tempat sampah."],ans:"B"},
+  {id:15,q:"Mengapa kita dianjurkan untuk mendahulukan belajar 'Adab' daripada mengumpulkan hafalan ilmu yang banyak?",opts:["A. Karena dengan adab yang baik, kita akan lebih mudah memahami ilmu dan memanfaatkannya di jalan yang benar.","B. Karena belajar adab jauh lebih cepat selesai dibandingkan belajar ilmu umum.","C. Karena guru hanya mau mengajar murid yang sudah sempurna adabnya.","D. Agar kita mendapat peringkat pertama dalam pelajaran Agama Islam."],ans:"A"},
+  {id:16,q:"Saat berdiskusi kelompok, temanmu memberikan pendapat yang menurutmu salah besar. Cara beradab untuk menanggapinya adalah...",opts:["A. Langsung memotong pembicaraannya dan menyuruhnya diam karena idenya bodoh.","B. Tertawa meremehkan agar dia sadar bahwa pendapatnya keliru.","C. Mendengarkan sampai selesai, memuji keberaniannya bicara, lalu menyampaikan pendapatmu dengan santun.","D. Diam saja dan mengikuti pendapatnya yang salah agar tidak terjadi keributan."],ans:"C"},
+  {id:17,q:"Apa perbedaan utama antara 'mengejek' dan 'bercanda' dalam pergaulan Islam?",opts:["A. Mengejek dilakukan dengan suara pelan, bercanda dengan suara keras.","B. Mengejek membuat satu pihak merasa sedih, sedangkan bercanda membuat kedua pihak bahagia tanpa ada yang disakiti.","C. Mengejek hanya boleh dilakukan kepada musuh, bercanda kepada teman.","D. Tidak ada perbedaan, keduanya dilarang jika dilakukan di dalam masjid."],ans:"B"},
+  {id:18,q:"Jika seorang teman gemar menyembunyikan barang temannya dengan alasan 'hanya mengetes kesabaran', perbuatan ini tergolong...",opts:["A. Kreativitas yang harus dihargai karena melatih mental.","B. Prank yang diharamkan karena membuat saudara muslim ketakutan atau bersedih kehilangan barangnya.","C. Hal yang biasa saja asalkan barangnya dikembalikan sebelum pulang sekolah.","D. Bentuk persahabatan yang erat karena berani saling menjahili."],ans:"B"},
+  {id:19,q:"Tindakan mencium tangan orang tua atau guru saat bersalaman bermakna...",opts:["A. Sebagai syarat agar kita diberikan uang saku atau nilai bagus.","B. Tanda ketundukan mutlak seperti kita menyembah Tuhan.","C. Bentuk tawadhu (rendah hati) dan permohonan ridha serta barokah dari orang yang lebih berilmu.","D. Hanya tradisi kuno yang tidak perlu dipertahankan di zaman modern."],ans:"C"},
+  {id:20,q:"Ketika kamu berbuat salah kepada teman dan ia belum mau memaafkanmu meski kamu sudah meminta maaf berkali-kali, adab yang harus kamu jaga adalah...",opts:["A. Marah balik karena merasa egomu sudah ditolak.","B. Menceritakan keburukannya ke teman lain agar mereka memusuhinya.","C. Membiarkannya selamanya dan mencari teman baru yang lebih pemaaf.","D. Tetap bersabar, mendoakan agar hatinya dilembutkan, dan terus berbuat baik kepadanya tanpa memaksa."],ans:"D"}
+];
+const DEFAULT_BOX = [
+  {id:1,situation:'Budi sedang asyik bermain game di HP. Tiba-tiba ibunya memanggil untuk minta tolong dibelikan garam. Budi menjawab, "Ah, nanti dulu Bu, Budi masih main!"',question:"Apakah sikap Budi sudah menunjukkan adab yang baik? Apa yang seharusnya dilakukan Budi?"},
+  {id:2,situation:"Saat jam istirahat, Siti melihat Ibu Guru sedang kesulitan membawa tumpukan buku tugas menuju ruang guru.",question:"Sebagai anak muslim yang hebat, apa tindakan yang harus Siti lakukan?"},
+  {id:3,situation:"Andi baru saja selesai shalat Maghrib. Biasanya, ia langsung melipat sajadah dan pergi menonton TV.",question:"Adab apa yang dilupakan Andi terhadap orang tuanya setelah shalat? Apa yang seharusnya ia lakukan/ucapkan?"},
+  {id:4,situation:"Kamu sedang berpapasan dengan Pak Guru di jalan raya. Pak Guru sedang berjalan kaki sedangkan kamu naik sepeda.",question:"Apa adab yang harus kamu lakukan saat bertemu Pak Guru di jalan?"},
+  {id:5,situation:"Ayah sedang tidur siang karena kelelahan bekerja. Riko dan adiknya ingin bermain kejar-kejaran di dalam rumah sambil berteriak.",question:"Bagaimana seharusnya sikap Riko agar tetap menjaga adab kepada ayahnya yang sedang istirahat?"},
+  {id:6,situation:"Edo tidak sengaja menyenggol meja Udin hingga tempat pensilnya jatuh dan patah. Edo sudah meminta maaf, tetapi Udin marah besar dan berniat membalas dendam.",question:"Apakah sikap Udin dibenarkan? Bagaimana seharusnya sikap Udin ketika ada teman yang meminta maaf?"},
+  {id:7,situation:"Fila melihat teman sebangkunya, Nisa, sedih karena lupa membawa pensil warna. Fila sendiri membawa pensil warna yang sangat lengkap.",question:"Adab apa yang bisa dipraktikkan Fila untuk membantu Nisa?"},
+  {id:8,situation:'Doni mengejek Bima yang berlari lambat saat main bola dengan panggilan "Si Gendut" dan "Kura-kura", sehingga teman lain ikut tertawa.',question:"Bolehkah kita memanggil teman dengan julukan buruk? Jelaskan alasanmu!"},
+  {id:9,situation:"Kamu baru saja tiba di sekolah dan masuk ke ruang kelas. Di dalam kelas sudah ada beberapa temanmu yang sedang duduk mengobrol.",question:"Kata pembuka apa yang pertama kali harus kamu ucapkan kepada mereka sambil tersenyum?"},
+  {id:10,situation:"Rina menumpahkan air ke buku Dinda. Dinda memaafkan Rina, tapi meminta Rina untuk tidak berteman lagi dengannya.",question:"Apakah adab memaafkan Dinda sudah sempurna? Mengapa kita dilarang memutus tali pertemanan?"},
+  {id:11,situation:"Kak Rio (kelas 6) melihat siswa kelas 1 SD menangis di depan gerbang karena belum dijemput ibunya.",question:"Sebagai kakak kelas, sikap apa yang harus ditunjukkan oleh Kak Rio?"},
+  {id:12,situation:"Kamu melihat beberapa adik kelas 2 SD membuang bungkus permennya sembarangan di taman sekolah.",question:"Bagaimana cara kamu menegur mereka dengan adab yang baik sebagai contoh atau teladan?"},
+  {id:13,situation:"Adik balitamu ingin ikut bergabung saat kamu sedang belajar bersama teman-teman. Kamu merasa terganggu lalu mendorong adikmu hingga menangis.",question:"Kesalahan apa yang kamu lakukan terhadap adikmu? Bagaimana seharusnya sikap seorang kakak?"},
+  {id:14,situation:"Sekelompok siswa kelas 5 mengejek siswa kelas 3 di lapangan karena mereka belum pandai bermain bola.",question:"Apakah ini contoh sikap dari Rasulullah SAW? Apa adab yang benar terhadap adik kelas?"},
+  {id:15,situation:"Kamu membeli dua buah roti di kantin. Di jalan, kamu bertemu adik kelas yang terlihat kelaparan karena tidak membawa uang saku.",question:"Tindakan mulia apa yang bisa kamu lakukan untuk mempraktikkan adab menyayangi yang lebih muda?"},
+  {id:16,situation:'Dika menyembunyikan sepatu Tono (prank). Saat Tono menangis mencari sepatunya, Dika tertawa dan berkata, "Hahaha, aku cuma bercanda kok!"',question:"Apakah jenis candaan Dika diperbolehkan dalam Islam? Jelaskan alasannya!"},
+  {id:17,situation:"Siska sedang marah karena nilai ulangannya jelek. Saat temannya bertanya, Siska menjawab dengan nada membentak dan kata-kata kasar.",question:"Bagaimana aturan Islam (adab) tentang cara kita berbicara saat sedang emosi atau marah?"},
+  {id:18,situation:"Kamu mengetahui sebuah cerita lucu, tetapi itu adalah cerita bohong (karangan palsu). Kamu ingin menceritakannya agar teman-teman tertawa.",question:"Apakah kamu akan menceritakan kebohongan itu? Apa syarat bercanda menurut ajaran Rasulullah SAW?"},
+  {id:19,situation:"Riko dan teman-temannya sedang asyik bercerita lucu. Mereka tertawa terbahak-bahak dengan sangat keras hingga mengganggu kelas sebelah.",question:"Adab bercanda apa yang dilanggar oleh Riko dan teman-temannya?"},
+  {id:20,situation:"Di grup diskusi kelas, teman-teman sedang menggosipkan keburukan siswa dari kelas lain. Kamu tahu itu perbuatan buruk.",question:'Sesuai prinsip "berkata yang baik atau diam", apa yang seharusnya kamu lakukan?'},
+  {id:21,situation:"Ahmad adalah juara kelas dan selalu mendapat nilai 100. Namun, ia sering membantah guru dan sombong kepada teman-temannya.",question:"Menurut para ulama, apa yang seharusnya dipelajari Ahmad terlebih dahulu sebelum mencari ilmu?"},
+  {id:22,situation:"Seseorang mengaku sangat mencintai dan ingin meniru Rasulullah SAW, namun ia masih suka mem-bully temannya di sekolah.",question:"Apakah orang tersebut benar-benar meniru Rasulullah SAW? Apa tujuan utama Rasulullah SAW diutus ke dunia?"}
+];
+
+// ================================================================
+// WORKING DATA (loaded from localStorage or defaults)
+// ================================================================
+let quizConfig = {title:"Kuis Adab Islami", subtitle:"Belajar adab itu asyik dan menyenangkan!"};
+let anagramData = [], mcData = [], boxData = [];
+
+function loadData(){
+  try{
+    const saved = localStorage.getItem('kuis_config');
+    if(saved) quizConfig = JSON.parse(saved);
+    const sag = localStorage.getItem('kuis_ag');
+    anagramData = sag ? JSON.parse(sag) : deepClone(DEFAULT_AG);
+    const smc = localStorage.getItem('kuis_mc');
+    mcData = smc ? JSON.parse(smc) : deepClone(DEFAULT_MC);
+    const sbx = localStorage.getItem('kuis_box');
+    boxData = sbx ? JSON.parse(sbx) : deepClone(DEFAULT_BOX);
+  } catch(e){
+    anagramData = deepClone(DEFAULT_AG);
+    mcData = deepClone(DEFAULT_MC);
+    boxData = deepClone(DEFAULT_BOX);
+  }
+}
+function deepClone(o){return JSON.parse(JSON.stringify(o));}
+function saveData(){
+  localStorage.setItem('kuis_config', JSON.stringify(quizConfig));
+  localStorage.setItem('kuis_ag', JSON.stringify(anagramData));
+  localStorage.setItem('kuis_mc', JSON.stringify(mcData));
+  localStorage.setItem('kuis_box', JSON.stringify(boxData));
+}
+
+// ================================================================
+// TAB SWITCHING (main)
+// ================================================================
+function switchTab(idx){
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===idx));
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+let toastTimer;
+function showToast(msg, type='success'){
+  const t=document.getElementById('toast');
+  const icons={success:'✅',error:'❌',info:'ℹ️',warn:'⚠️'};
+  t.innerHTML=`${icons[type]||'✅'} ${msg}`;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ================================================================
+// CONFIRM DIALOG
+// ================================================================
+let confirmCallback=null;
+function showConfirm(icon,title,msg,yesLabel,cb){
+  document.getElementById('confirm-icon').textContent=icon;
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-msg').textContent=msg;
+  document.getElementById('confirm-yes-btn').textContent=yesLabel||'Ya';
+  confirmCallback=cb;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('open');confirmCallback=null;}
+function doConfirm(){if(confirmCallback)confirmCallback();closeConfirm();}
+
+// ================================================================
+// ANAGRAM ENGINE
+// ================================================================
+let ag={idx:0, status:[], tiles:[], placed:[]};
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function agMakeTiles(answer){
+  return shuffle(answer.split('').filter(c=>c!==' ').map((c,i)=>({id:i,char:c,used:false})));
+}
+function agInitAll(){
+  ag.status=Array(anagramData.length).fill('todo');
+  ag.idx=0;
+  ag.tiles=[];ag.placed=[];
+  agInit(0);
+}
+function agInit(idx){
+  if(anagramData.length===0){
+    document.getElementById('ag-main').innerHTML='<div class="fb fb-info">📭 Belum ada soal anagram. Tambahkan di Pengaturan.</div>';
+    document.getElementById('ag-dots').innerHTML='';
+    document.getElementById('ag-prog').style.width='0%';
+    document.getElementById('ag-prog-text').textContent='0 / 0 kata selesai';
+    return;
+  }
+  if(idx>=anagramData.length) idx=0;
+  ag.idx=idx;
+  ag.tiles=agMakeTiles(anagramData[idx].answer);
+  ag.placed=[];
+  agRender();
+}
+function agRender(){
+  const total=anagramData.length;
+  const done=ag.status.filter(s=>s==='done').length;
+  document.getElementById('ag-prog').style.width=(total?done/total*100:0)+'%';
+  document.getElementById('ag-prog-text').textContent=done+' / '+total+' kata selesai';
+  // dots
+  document.getElementById('ag-dots').innerHTML=anagramData.map((_,i)=>{
+    let cls=ag.status[i]||'todo';
+    if(i===ag.idx)cls='current';
+    return `<div class="nav-dot ${cls}" onclick="agJumpTo(${i})" title="${anagramData[i].answer}"></div>`;
+  }).join('');
+  if(done===total&&total>0){agShowAllDone();return;}
+  const cur=anagramData[ag.idx];
+  const words=cur.answer.split(' ');
+  const totalLetters=words.join('').length;
+  let slotsHTML='<div class="words-container">';
+  let gi=0;
+  words.forEach(word=>{
+    slotsHTML+='<div class="word-row">';
+    for(let li=0;li<word.length;li++){
+      const idx=gi++;
+      const filled=ag.placed[idx];
+      slotsHTML+=`<div class="letter-slot ${filled?'filled':''}" id="slot-${idx}" onclick="agRemovePlaced(${idx})">${filled?filled.char:''}</div>`;
+    }
+    slotsHTML+='</div>';
+  });
+  slotsHTML+='</div>';
+  let poolHTML='<div class="tile-pool">';
+  ag.tiles.forEach(t=>{
+    poolHTML+=`<div class="letter-tile ${t.used?'used':''}" id="tile-${t.id}" onclick="agPlaceTile(${t.id})">${t.char}</div>`;
+  });
+  poolHTML+='</div>';
+  const hint=words.map(w=>`<span>${w.length} huruf</span>`).join(' ');
+  document.getElementById('ag-main').innerHTML=`
+    <div class="anagram-card" id="ag-card">
+      <div class="q-number">${ag.idx+1}</div>
+      <div class="clue-box">
+        <div class="clue-label">💡 Petunjuk</div>
+        <div class="clue-text">${escH(cur.clue)}</div>
+      </div>
+      <div class="word-hint">Jawaban: ${words.length} kata – ${hint}</div>
+      <div class="answer-area" id="ag-answer-area">${slotsHTML}</div>
+      ${poolHTML}
+      <div id="ag-feedback"></div>
+      <div class="action-buttons" style="margin-top:14px">
+        <button class="btn btn-hapus" onclick="agHapus()">🗑️ Hapus</button>
+        <button class="btn btn-cek" id="btn-cek-lanjut" onclick="agCek()">✅ Cek Jawaban</button>
+        <button class="btn btn-skip" id="btn-lewati" onclick="agLewati()">⏭️ Lewati</button>
+      </div>
+    </div>`;
+}
+function agPlaceTile(id){
+  const cur=anagramData[ag.idx];
+  const total=cur.answer.replace(/ /g,'').length;
+  if(ag.placed.length>=total)return;
+  const t=ag.tiles.find(x=>x.id===id);
+  if(!t||t.used)return;
+  t.used=true;
+  const idx=ag.placed.length;
+  ag.placed.push({tileId:id,char:t.char});
+  const tileEl=document.getElementById('tile-'+id);
+  if(tileEl)tileEl.classList.add('used');
+  const slotEl=document.getElementById('slot-'+idx);
+  if(slotEl){slotEl.classList.add('filled');slotEl.textContent=t.char;}
+  document.getElementById('ag-feedback').innerHTML='';
+}
+function agRemovePlaced(idx){
+  if(idx>=ag.placed.length)return;
+  const item=ag.placed[idx];
+  if(!item)return;
+  const t=ag.tiles.find(x=>x.id===item.tileId);
+  if(t)t.used=false;
+  const tileEl=document.getElementById('tile-'+item.tileId);
+  if(tileEl)tileEl.classList.remove('used');
+  ag.placed.splice(idx,1);
+  agRerenderSlots();
+  document.getElementById('ag-feedback').innerHTML='';
+}
+function agRerenderSlots(){
+  const cur=anagramData[ag.idx];
+  const words=cur.answer.split(' ');
+  let gi=0;
+  words.forEach(word=>{
+    for(let li=0;li<word.length;li++){
+      const idx=gi++;
+      const slotEl=document.getElementById('slot-'+idx);
+      if(!slotEl)return;
+      const filled=ag.placed[idx];
+      if(filled){slotEl.classList.add('filled');slotEl.textContent=filled.char;}
+      else{slotEl.classList.remove('filled');slotEl.textContent='';}
+    }
+  });
+}
+function agCek(){
+  const cur=anagramData[ag.idx];
+  const total=cur.answer.replace(/ /g,'').length;
+  const fb=document.getElementById('ag-feedback');
+  if(ag.placed.length<total){fb.innerHTML='<div class="fb fb-info">⚠️ Susun semua huruf terlebih dahulu!</div>';return;}
+  const typed=ag.placed.map(p=>p.char).join('').toUpperCase();
+  const expected=cur.answer.replace(/ /g,'').toUpperCase();
+  if(typed===expected){
+    ag.status[ag.idx]='done';
+    document.querySelectorAll('.letter-slot').forEach(s=>s.classList.add('correct-slot'));
+    fb.innerHTML='<div class="fb fb-correct">🎉 Benar! Klik Lanjut untuk soal berikutnya.</div>';
+    document.getElementById('btn-cek-lanjut').textContent='➡️ Lanjut';
+    document.getElementById('btn-cek-lanjut').setAttribute('onclick','agLanjut()');
+    document.getElementById('btn-lewati').style.display='none';
+    const done=ag.status.filter(s=>s==='done').length;
+    document.getElementById('ag-prog').style.width=(done/anagramData.length*100)+'%';
+    document.getElementById('ag-prog-text').textContent=done+' / '+anagramData.length+' kata selesai';
+    const dots=document.querySelectorAll('.nav-dot');
+    if(dots[ag.idx])dots[ag.idx].className='nav-dot done';
+    if(done===anagramData.length)setTimeout(agShowAllDone,1200);
+  } else {
+    document.querySelectorAll('.letter-slot').forEach(s=>{s.classList.add('wrong-slot');setTimeout(()=>s.classList.remove('wrong-slot'),500);});
+    fb.innerHTML='<div class="fb fb-wrong">❌ Kurang tepat! Huruf diacak ulang. Coba lagi!</div>';
+    ag.placed=[];
+    ag.tiles=agMakeTiles(cur.answer);
+    setTimeout(()=>{agRenderSlotsAndPool();document.getElementById('ag-feedback').innerHTML='<div class="fb fb-wrong">❌ Kurang tepat! Huruf diacak ulang. Coba lagi!</div>';},450);
+  }
+}
+function agRenderSlotsAndPool(){
+  const cur=anagramData[ag.idx];
+  const words=cur.answer.split(' ');
+  let slotsHTML='<div class="words-container">';
+  let gi=0;
+  words.forEach(word=>{
+    slotsHTML+='<div class="word-row">';
+    for(let li=0;li<word.length;li++){
+      const idx=gi++;
+      slotsHTML+=`<div class="letter-slot" id="slot-${idx}" onclick="agRemovePlaced(${idx})"></div>`;
+    }
+    slotsHTML+='</div>';
+  });
+  slotsHTML+='</div>';
+  const areaEl=document.getElementById('ag-answer-area');
+  if(areaEl)areaEl.innerHTML=slotsHTML;
+  let poolHTML='';
+  ag.tiles.forEach(t=>{poolHTML+=`<div class="letter-tile" id="tile-${t.id}" onclick="agPlaceTile(${t.id})">${t.char}</div>`;});
+  const poolEl=document.querySelector('.tile-pool');
+  if(poolEl)poolEl.innerHTML=poolHTML;
+}
+function agHapus(){
+  ag.placed=[];ag.tiles=agMakeTiles(anagramData[ag.idx].answer);
+  agRenderSlotsAndPool();
+  document.getElementById('ag-feedback').innerHTML='';
+}
+function agLanjut(){
+  const next=anagramData.findIndex((_,i)=>i>ag.idx&&ag.status[i]!=='done');
+  if(next!==-1){agInit(next);}
+  else{const retry=anagramData.findIndex((_,i)=>ag.status[i]==='skipped');if(retry!==-1)agInit(retry);else agShowAllDone();}
+}
+function agLewati(){
+  if(ag.status[ag.idx]==='todo')ag.status[ag.idx]='skipped';
+  const next=anagramData.findIndex((_,i)=>i>ag.idx&&ag.status[i]!=='done');
+  if(next!==-1){agInit(next);}
+  else{const retry=anagramData.findIndex((_,i)=>ag.status[i]==='skipped');if(retry!==-1)agInit(retry);else agShowAllDone();}
+}
+function agJumpTo(idx){if(ag.status[idx]==='done')return;agInit(idx);}
+function agShowAllDone(){
+  const done=ag.status.filter(s=>s==='done').length;
+  document.getElementById('ag-main').innerHTML=`
+    <div class="all-done-card">
+      <div class="all-done-emoji">🌟</div>
+      <div class="all-done-title">Bagian Anagram Selesai!</div>
+      <div class="all-done-sub">${done} dari ${anagramData.length} kata berhasil dijawab dengan benar</div>
+      <button class="btn-primary" onclick="agReset()" style="margin-top:22px">🔄 Ulangi Anagram</button>
+    </div>`;
+}
+function agReset(){ag.status=Array(anagramData.length).fill('todo');agInit(0);}
+
+// ================================================================
+// MC ENGINE
+// ================================================================
+let mc={queue:[],qIdx:0,wrongOnes:[],isRetry:false,score:0,answered:false};
+function mcInitAll(){
+  mc={queue:mcData.map((_,i)=>i),qIdx:0,wrongOnes:[],isRetry:false,score:0,answered:false};
+  mcRender();
+}
+function mcCurrentQ(){return mcData[mc.queue[mc.qIdx]];}
+function mcRender(){
+  if(mcData.length===0){
+    document.getElementById('mc-main').innerHTML='<div class="fb fb-info">📭 Belum ada soal pilihan ganda. Tambahkan di Pengaturan.</div>';
+    document.getElementById('mc-prog-text').textContent='0 soal';
+    return;
+  }
+  if(mc.qIdx>=mc.queue.length){mcFinishRound();return;}
+  const q=mcCurrentQ();
+  document.getElementById('mc-prog').style.width=(mc.qIdx/mc.queue.length*100)+'%';
+  document.getElementById('mc-prog-text').textContent=`Soal ${mc.qIdx+1} dari ${mc.queue.length}${mc.isRetry?' (Pengulangan)':''}`;
+  document.getElementById('mc-retry-badge').style.display=mc.isRetry?'inline-flex':'none';
+  const optsHTML=q.opts.map(opt=>{
+    const letter=opt.charAt(0);
+    return `<button class="mc-opt" id="mc-opt-${letter}" onclick="mcSelect('${letter}')">${escH(opt)}</button>`;
+  }).join('');
+  document.getElementById('mc-main').innerHTML=`
+    <div class="mc-card">
+      <div class="mc-q-num">Soal ${q.id}</div>
+      <div class="mc-q-text">${escH(q.q)}</div>
+      <div class="mc-options">${optsHTML}</div>
+      <div id="mc-feedback"></div>
+    </div>`;
+  mc.answered=false;
+}
+function mcSelect(letter){
+  if(mc.answered)return;
+  mc.answered=true;
+  const q=mcCurrentQ();
+  const correct=letter===q.ans;
+  q.opts.forEach(opt=>{
+    const l=opt.charAt(0);
+    const btn=document.getElementById('mc-opt-'+l);
+    if(!btn)return;
+    btn.disabled=true;
+    if(l===q.ans)btn.classList.add('opt-correct');
+    else if(l===letter&&!correct)btn.classList.add('opt-wrong');
+  });
+  const fb=document.getElementById('mc-feedback');
+  if(correct){
+    mc.score++;
+    fb.innerHTML='<div class="mc-fb correct">✅ Jawaban benar! Lanjut ke soal berikutnya...</div>';
+    setTimeout(mcAdvance,1400);
+  } else {
+    mc.wrongOnes.push(mc.queue[mc.qIdx]);
+    fb.innerHTML='<div class="mc-fb wrong">❌ Kurang tepat. Soal ini akan diulang nanti...</div>';
+    setTimeout(mcAdvance,1700);
+  }
+}
+function mcAdvance(){mc.qIdx++;if(mc.qIdx>=mc.queue.length)mcFinishRound();else mcRender();}
+function mcFinishRound(){
+  if(!mc.isRetry&&mc.wrongOnes.length>0){
+    mc.queue=[...mc.wrongOnes];mc.wrongOnes=[];mc.qIdx=0;mc.isRetry=true;mc.answered=false;mcRender();
+  } else mcShowScore();
+}
+function mcShowScore(){
+  const total=mcData.length,pct=Math.round(mc.score/total*100);
+  const emoji=pct>=80?'🏆':pct>=60?'😊':'💪';
+  const grade=pct>=80?'Luar Biasa! 🎉':pct>=60?'Bagus! 👍':'Tetap Semangat! 💪';
+  document.getElementById('mc-retry-badge').style.display='none';
+  document.getElementById('mc-prog').style.width='100%';
+  document.getElementById('mc-prog-text').textContent='Selesai!';
+  document.getElementById('mc-main').innerHTML=`
+    <div class="score-card">
+      <div style="font-size:2.8rem;margin-bottom:8px">${emoji}</div>
+      <div class="score-big">${mc.score}<span style="font-size:2rem;color:#94a3b8">/${total}</span></div>
+      <div class="score-label">Jawaban Benar</div>
+      <div style="font-size:1.15rem;font-weight:900;margin-top:10px;color:${pct>=80?'#065f46':'#b45309'}">${pct}% — ${grade}</div>
+      <button class="btn-primary" onclick="mcReset()" style="margin-top:22px">🔄 Ulangi Kuis</button>
+    </div>`;
+}
+function mcReset(){mcInitAll();}
+
+// ================================================================
+// OPEN THE BOX ENGINE
+// ================================================================
+let openedBoxes=new Set();
+function boxRender(){
+  const grid=document.getElementById('box-grid');
+  grid.innerHTML=boxData.map(box=>{
+    const isOpen=openedBoxes.has(box.id);
+    return `<div class="box-item ${isOpen?'opened':''}" onclick="boxClick(${box.id})" id="box-${box.id}">
+      <div class="box-inner">
+        <div class="box-front"><div class="box-num-text">${box.id}</div><div class="box-qmark">❓</div></div>
+        <div class="box-back"><div class="box-back-inner"><div class="box-back-check">✅</div><div class="box-back-num">Kotak #${box.id}</div></div></div>
+      </div></div>`;
+  }).join('');
+  updateBoxStats();
+}
+function boxClick(id){
+  if(!openedBoxes.has(id)){
+    openedBoxes.add(id);
+    const el=document.getElementById('box-'+id);
+    if(el)el.classList.add('opened');
+    updateBoxStats();
+    setTimeout(()=>boxOpenModal(id),380);
+  } else boxOpenModal(id);
+}
+function boxOpenModal(id){
+  const box=boxData.find(b=>b.id===id);
+  if(!box)return;
+  document.getElementById('modal-badge').textContent='📦 Kotak #'+box.id;
+  document.getElementById('modal-situation').textContent=box.situation;
+  document.getElementById('modal-question').textContent=box.question;
+  document.getElementById('modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modal').style.display='none';document.body.style.overflow='';}
+function updateBoxStats(){
+  const s=document.getElementById('box-stats');
+  if(s)s.innerHTML=`<span>${openedBoxes.size}</span> / ${boxData.length} kotak dibuka`;
+  const ad=document.getElementById('box-alldone');
+  if(ad)ad.style.display=(boxData.length>0&&openedBoxes.size===boxData.length)?'block':'none';
+}
+function resetBoxes(){openedBoxes=new Set();boxRender();}
+
+// ================================================================
+// SETTINGS PANEL
+// ================================================================
+let currentSpTab=0;
+let editAg=[], editMc=[], editBox=[];
+
+function openSettings(){
+  editAg=deepClone(anagramData);
+  editMc=deepClone(mcData);
+  editBox=deepClone(boxData);
+  document.getElementById('cfg-title').value=quizConfig.title;
+  document.getElementById('cfg-subtitle').value=quizConfig.subtitle;
+  renderAgEditor();
+  renderMcEditor();
+  renderBoxEditor();
+  renderStats();
+  switchSpTab(0);
+  document.getElementById('settings-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSettings(){
+  document.getElementById('settings-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeSettingsIfBg(e){if(e.target===document.getElementById('settings-overlay'))closeSettings();}
+
+function switchSpTab(idx){
+  currentSpTab=idx;
+  document.querySelectorAll('.sp-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.sp-section').forEach((s,i)=>s.classList.toggle('active',i===idx));
+}
+
+// ---- STATS ----
+function renderStats(){
+  document.getElementById('stats-display').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px">
+      ${statBlock('✏️','Anagram',anagramData.length+' soal','#7c3aed')}
+      ${statBlock('🧠','Pilihan Ganda',mcData.length+' soal','#0891b2')}
+      ${statBlock('📦','Open Box',boxData.length+' kotak','#d97706')}
+    </div>`;
+}
+function statBlock(icon,label,val,color){
+  return `<div style="background:${color}11;border:1.5px solid ${color}33;border-radius:10px;padding:10px;text-align:center">
+    <div style="font-size:1.3rem">${icon}</div>
+    <div style="font-size:0.7rem;font-weight:800;color:${color};margin-top:2px">${label}</div>
+    <div style="font-size:0.85rem;font-weight:900;color:#1e293b">${val}</div>
+  </div>`;
+}
+
+// ---- AG EDITOR ----
+function renderAgEditor(){
+  document.getElementById('ag-editor').innerHTML=editAg.map((item,i)=>`
+    <div class="sp-card" id="age-${i}">
+      <div class="sp-card-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="sp-card-num">${i+1}</div>
+          <div class="sp-card-title">Soal Anagram ${i+1}</div>
+        </div>
+        <button class="sp-del-btn" onclick="delAgItem(${i})">🗑️ Hapus</button>
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">Jawaban (Kata Penting)</label>
+        <input type="text" class="sp-input" id="ag-ans-${i}" value="${escH(item.answer)}" 
+          placeholder="Contoh: ADAB" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">Petunjuk / Clue</label>
+        <textarea class="sp-textarea" id="ag-clue-${i}" placeholder="Tulis petunjuk soal...">${escH(item.clue)}</textarea>
+      </div>
+    </div>`).join('');
+}
+function addAgItem(){
+  editAg.push({id:Date.now(),answer:"",clue:""});
+  renderAgEditor();
+  document.getElementById('ag-editor').lastElementChild.scrollIntoView({behavior:'smooth'});
+}
+function delAgItem(i){
+  showConfirm('🗑️','Hapus Soal','Yakin hapus soal anagram ini?','Hapus',()=>{
+    editAg.splice(i,1);renderAgEditor();showToast('Soal dihapus','warn');
+  });
+}
+function collectAgEdits(){
+  editAg.forEach((item,i)=>{
+    const a=document.getElementById('ag-ans-'+i);
+    const c=document.getElementById('ag-clue-'+i);
+    if(a)item.answer=a.value.trim().toUpperCase();
+    if(c)item.clue=c.value.trim();
+  });
+}
+
+// ---- MC EDITOR ----
+const MC_LETTERS=['A','B','C','D'];
+function renderMcEditor(){
+  document.getElementById('mc-editor').innerHTML=editMc.map((item,i)=>{
+    const optsHTML=MC_LETTERS.map((l,j)=>{
+      const isCorrect=item.ans===l;
+      const rawText=item.opts[j]?item.opts[j].replace(/^[A-D]\.\s*/,''):'';
+      return `<div class="opt-row">
+        <div class="opt-letter ${isCorrect?'correct-letter':''}" id="mc-opt-letter-${i}-${l}">${l}</div>
+        <input type="text" class="sp-input" id="mc-opt-${i}-${j}" 
+          value="${escH(rawText)}" 
+          placeholder="Pilihan ${l}..." style="flex:1">
+      </div>`;
+    }).join('');
+    return `<div class="sp-card" id="mce-${i}">
+      <div class="sp-card-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="sp-card-num">${i+1}</div>
+          <div class="sp-card-title">Soal MC ${i+1}</div>
+        </div>
+        <button class="sp-del-btn" onclick="delMcItem(${i})">🗑️ Hapus</button>
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">Pertanyaan</label>
+        <textarea class="sp-textarea" id="mc-q-${i}" placeholder="Tulis pertanyaan...">${escH(item.q)}</textarea>
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">Pilihan Jawaban (A–D)</label>
+        <div class="opts-grid">${optsHTML}</div>
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">Kunci Jawaban</label>
+        <select class="sp-select" id="mc-ans-${i}" onchange="updateMcLetterHighlight(${i},this.value)">
+          ${MC_LETTERS.map(l=>`<option value="${l}" ${item.ans===l?'selected':''}>${l}</option>`).join('')}
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+}
+function updateMcLetterHighlight(i,val){
+  MC_LETTERS.forEach(l=>{
+    const el=document.getElementById('mc-opt-letter-'+i+'-'+l);
+    if(el)el.className='opt-letter'+(l===val?' correct-letter':'');
+  });
+}
+function addMcItem(){
+  const newId=editMc.length?Math.max(...editMc.map(m=>m.id))+1:1;
+  editMc.push({id:newId,q:"",opts:["A. ","B. ","C. ","D. "],ans:"A"});
+  renderMcEditor();
+  document.getElementById('mc-editor').lastElementChild.scrollIntoView({behavior:'smooth'});
+}
+function delMcItem(i){
+  showConfirm('🗑️','Hapus Soal','Yakin hapus soal pilihan ganda ini?','Hapus',()=>{
+    editMc.splice(i,1);renderMcEditor();showToast('Soal dihapus','warn');
+  });
+}
+function collectMcEdits(){
+  editMc.forEach((item,i)=>{
+    const q=document.getElementById('mc-q-'+i);
+    const ans=document.getElementById('mc-ans-'+i);
+    if(q)item.q=q.value.trim();
+    if(ans)item.ans=ans.value;
+    MC_LETTERS.forEach((l,j)=>{
+      const opt=document.getElementById('mc-opt-'+i+'-'+j);
+      if(opt)item.opts[j]=l+'. '+opt.value.trim();
+    });
+  });
+}
+
+// ---- BOX EDITOR ----
+function renderBoxEditor(){
+  document.getElementById('box-editor').innerHTML=editBox.map((item,i)=>`
+    <div class="sp-card" id="boxe-${i}">
+      <div class="sp-card-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="sp-card-num">${i+1}</div>
+          <div class="sp-card-title">Kotak ${i+1}</div>
+        </div>
+        <button class="sp-del-btn" onclick="delBoxItem(${i})">🗑️ Hapus</button>
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">🎭 Studi Kasus / Situasi</label>
+        <textarea class="sp-textarea" id="box-sit-${i}" placeholder="Tulis studi kasus...">${escH(item.situation)}</textarea>
+      </div>
+      <div class="sp-field">
+        <label class="sp-label">❓ Pertanyaan Diskusi</label>
+        <textarea class="sp-textarea" id="box-q-${i}" placeholder="Tulis pertanyaan diskusi...">${escH(item.question)}</textarea>
+      </div>
+    </div>`).join('');
+}
+function addBoxItem(){
+  const newId=editBox.length?Math.max(...editBox.map(b=>b.id))+1:1;
+  editBox.push({id:newId,situation:"",question:""});
+  renderBoxEditor();
+  document.getElementById('box-editor').lastElementChild.scrollIntoView({behavior:'smooth'});
+}
+function delBoxItem(i){
+  showConfirm('🗑️','Hapus Kotak','Yakin hapus kotak ini?','Hapus',()=>{
+    editBox.splice(i,1);renderBoxEditor();showToast('Kotak dihapus','warn');
+  });
+}
+function collectBoxEdits(){
+  editBox.forEach((item,i)=>{
+    const s=document.getElementById('box-sit-'+i);
+    const q=document.getElementById('box-q-'+i);
+    if(s)item.situation=s.value.trim();
+    if(q)item.question=q.value.trim();
+  });
+}
+
+// ---- SAVE ----
+function saveSettings(){
+  collectAgEdits();
+  collectMcEdits();
+  collectBoxEdits();
+  // Validate
+  const agInvalid=editAg.filter(x=>!x.answer.trim());
+  const mcInvalid=editMc.filter(x=>!x.q.trim());
+  if(agInvalid.length>0){showToast('Ada soal anagram yang belum diisi!','error');return;}
+  if(mcInvalid.length>0){showToast('Ada pertanyaan pilihan ganda yang kosong!','error');return;}
+  // Renumber IDs
+  editAg.forEach((x,i)=>x.id=i+1);
+  editMc.forEach((x,i)=>x.id=i+1);
+  editBox.forEach((x,i)=>x.id=i+1);
+  // Apply
+  quizConfig.title=document.getElementById('cfg-title').value.trim()||'Kuis Adab Islami';
+  quizConfig.subtitle=document.getElementById('cfg-subtitle').value.trim()||'Belajar adab itu asyik!';
+  anagramData=deepClone(editAg);
+  mcData=deepClone(editMc);
+  boxData=deepClone(editBox);
+  // Save to localStorage
+  saveData();
+  // Update UI
+  document.getElementById('quiz-title-display').textContent=quizConfig.title;
+  document.getElementById('quiz-subtitle-display').textContent=quizConfig.subtitle;
+  document.title=quizConfig.title;
+  // Reload quiz sections
+  agInitAll();
+  mcInitAll();
+  openedBoxes=new Set();
+  boxRender();
+  closeSettings();
+  showToast('Perubahan berhasil disimpan! 🎉','success');
+}
+
+// ---- RESET ----
+function confirmReset(type){
+  const msgs={
+    ag:['Reset Anagram','Semua progress bagian Anagram akan dihapus.'],
+    mc:['Reset Pilihan Ganda','Semua progress bagian Pilihan Ganda akan dihapus.'],
+    box:['Reset Open The Box','Semua kotak akan ditutup kembali.'],
+    all:['Reset Semua Progress','Semua progress ketiga bagian akan dihapus sekaligus.']
+  };
+  const [title,msg]=msgs[type]||['Reset','Yakin?'];
+  showConfirm('🔄',title,msg,'Ya, Reset',()=>{
+    if(type==='ag'||type==='all'){ag.status=Array(anagramData.length).fill('todo');agInit(0);}
+    if(type==='mc'||type==='all'){mcInitAll();}
+    if(type==='box'||type==='all'){openedBoxes=new Set();boxRender();}
+    showToast('Progress berhasil direset','info');
+  });
+}
+
+// ---- EXPORT ----
+function exportData(){
+  collectAgEdits();collectMcEdits();collectBoxEdits();
+  const payload={
+    version:1,
+    exportedAt:new Date().toISOString(),
+    config:quizConfig,
+    anagram:anagramData,
+    mc:mcData,
+    box:boxData
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='kuis_backup_'+new Date().toLocaleDateString('id').replace(/\//g,'-')+'.json';
+  a.click();URL.revokeObjectURL(url);
+  showToast('Data berhasil diexport!','success');
+}
+
+// ---- IMPORT ----
+function importData(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.anagram||!data.mc||!data.box) throw new Error('Format tidak valid');
+      showConfirm('⬆️','Import Data','Data yang ada akan ditimpa dengan data dari file ini. Lanjutkan?','Ya, Import',()=>{
+        if(data.config)quizConfig=data.config;
+        anagramData=data.anagram;mcData=data.mc;boxData=data.box;
+        saveData();
+        openSettings(); // refresh panel
+        showToast('Data berhasil diimport!','success');
+      });
+    } catch(err){showToast('File tidak valid atau rusak!','error');}
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+
+// ---- RESTORE DEFAULT ----
+function confirmRestoreDefault(){
+  showConfirm('↩️','Kembalikan ke Default','Semua soal akan dikembalikan ke soal bawaan. Data yang kamu edit akan hilang!','Ya, Kembalikan',()=>{
+    anagramData=deepClone(DEFAULT_AG);mcData=deepClone(DEFAULT_MC);boxData=deepClone(DEFAULT_BOX);
+    quizConfig={title:"Kuis Adab Islami",subtitle:"Belajar adab itu asyik dan menyenangkan!"};
+    saveData();
+    editAg=deepClone(anagramData);editMc=deepClone(mcData);editBox=deepClone(boxData);
+    document.getElementById('cfg-title').value=quizConfig.title;
+    document.getElementById('cfg-subtitle').value=quizConfig.subtitle;
+    renderAgEditor();renderMcEditor();renderBoxEditor();renderStats();
+    document.getElementById('quiz-title-display').textContent=quizConfig.title;
+    document.getElementById('quiz-subtitle-display').textContent=quizConfig.subtitle;
+    agInitAll();mcInitAll();openedBoxes=new Set();boxRender();
+    showToast('Dikembalikan ke soal default!','info');
+  });
+}
+
+// ================================================================
+// UTILS
+// ================================================================
+function escH(str){
+  if(!str)return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeModal();
+    if(document.getElementById('settings-overlay').classList.contains('open'))closeSettings();
+  }
+});
+
+// ================================================================
+// INIT
+// ================================================================
+loadData();
+document.getElementById('quiz-title-display').textContent=quizConfig.title;
+document.getElementById('quiz-subtitle-display').textContent=quizConfig.subtitle;
+document.title=quizConfig.title;
+agInitAll();
+mcInitAll();
+boxRender();
+</script>
+</body>
+</html>
